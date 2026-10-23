@@ -246,7 +246,7 @@
     const nav = $("#nav");
     nav.innerHTML = ALL_TABS.map(function (t) {
       return '<button class="nav-btn" data-tab="' + t + '"><span class="inner">' + ICONS[t] +
-        '<span class="lbl">' + LABELS[t] + "</span></span></button>";
+        '<span class="lbl">' + LABELS[t] + "</span></button>".replace("</button>", "</span></button>");
     }).join("");
     nav.querySelectorAll(".nav-btn").forEach(function (b) {
       b.addEventListener("click", function () { setTab(b.dataset.tab, true); });
@@ -453,8 +453,11 @@
   renderCards("#activitiesList", ACTIVITIES);
   renderCards("#projectsList", PROJECTS);
 
+  // Pornim întotdeauna în meniul de selecție. Clasa salvată (dacă există) e doar
+  // preselecție convenabilă în roată — nu mai intră direct în ea la deschidere.
   const saved = loadClass();
-  if (saved) { state.cls = saved; showMain(); } else { showOnboarding(); }
+  if (saved) { state.cls = saved; }
+  showOnboarding();
 
   // După prima afișare pornim animațiile (ca ecranul să nu "sară" la încărcare)
   requestAnimationFrame(function () {
