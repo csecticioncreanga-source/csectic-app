@@ -23,9 +23,7 @@
   };
   const LABELS = { orar: "Orar", activitati: "Activități", proiecte: "Proiecte" };
   const ALL_TABS = ["proiecte", "orar", "activitati"];
-  // Ordinea liniară a filelor (decide direcția animației: stânga sau dreapta)
   const TAB_ORDER = ["proiecte", "orar", "activitati"];
-  // Fila activă merge mereu în butonul din mijloc
   const NAV_ORDER = {
     orar: ["proiecte", "orar", "activitati"],
     activitati: ["proiecte", "activitati", "orar"],
@@ -38,7 +36,6 @@
 
   const state = { cls: null, tab: "orar", day: 0, busy: false };
 
-  // ---------- Ajutoare pentru animații ----------
   function animate(el, keyframes, opts) {
     if (!el || !el.animate) return { finished: Promise.resolve(), cancel: function () {} };
     const o = Object.assign({ easing: EASE }, opts);
@@ -47,7 +44,6 @@
   }
   function done(anim, fn) { anim.finished.then(fn, fn); }
 
-  // Morph: elementul se lungește/scurtează, iar textul apare cu fade scurt după
   function toggleMorph(root, body, btn) {
     if (root._busy) return;
     root._busy = true;
@@ -71,8 +67,6 @@
     }
   }
 
-  // ---------- Clase ----------
-  // Caută o clasă (ex. "X A") în cele trei trepte (categorie -> an -> clasa)
   function findClass(id) {
     for (let gi = 0; gi < CATEGORIES.length; gi++) {
       const yrs = CATEGORIES[gi].YEARS;
@@ -86,7 +80,6 @@
     return null;
   }
 
-  // Memorare clasă (doar pe telefonul elevului)
   function loadClass() {
     try {
       const c = localStorage.getItem(STORAGE_KEY);
@@ -97,7 +90,6 @@
     try { localStorage.setItem(STORAGE_KEY, c); } catch (e) { /* ignorăm */ }
   }
 
-  // ---------- Logo (assets/logo.png, altfel o variantă text) ----------
   function initLogo() {
     const el = $("#brandLogo");
     const fallback = '<div class="wm"><span class="mono">CE</span><span class="word">CSECTIC</span></div>';
@@ -108,7 +100,6 @@
     img.src = "assets/logo.png";
   }
 
-  // ---------- Timp ----------
   function pad(n) { return (n < 10 ? "0" : "") + n; }
   function toMin(hhmm) { const p = hhmm.split(":"); return parseInt(p[0], 10) * 60 + parseInt(p[1], 10); }
   function nowMin() { const d = new Date(); return d.getHours() * 60 + d.getMinutes(); }
@@ -116,8 +107,6 @@
   function hourRange(h) { return BELLS[h] || [pad(h) + ":00", pad(h) + ":50"]; }
   function startMin(h) { return toMin(hourRange(h)[0]); }
   function endMin(h) { return toMin(hourRange(h)[1]); }
-  // Numele materiei: coduri exacte din SUBJECTS, altfel prefixul de litere din
-  // SUBJECT_PREFIXES (B4, B2, B1 = Biologie), altfel afișăm codul așa cum a venit.
   function subjName(code) {
     const c = String(code);
     if (typeof SUBJECTS !== "undefined" && SUBJECTS[c]) return SUBJECTS[c];
@@ -133,7 +122,6 @@
   return (TIMETABLE[cls] && TIMETABLE[cls][day]) || [];
 }
 
-  // ---------- Ecranul 1: alegerea clasei, în trei trepte (învățământul, apoi anul, apoi litera) ----------
   const wheel = $("#wheel");
   let wheelItems = [];
   let wheelIndex = 0;
@@ -171,7 +159,6 @@
     raf = requestAnimationFrame(markWheel);
   });
 
-  // Schimbă lista din roată: cea veche iese într-o parte, cea nouă intră din cealaltă
   function swapWheel(items, selected, dir) {
     ob.busy = true;
     const out = animate(wheel, [{ transform: "translateX(0)", opacity: 1 }, { transform: "translateX(" + (-dir * 45) + "px)", opacity: 0 }], { duration: 220, fill: "forwards" });
@@ -192,7 +179,7 @@
     buildWheel(catItems(), ob.catIdx);
     setObTitle();
     updateObButtons();
-    app.dataset.view = "onboarding"; // logo-ul se mărește la loc, ecranele alunecă
+    app.dataset.view = "onboarding";
   }
   function showMain() {
     const f = findClass(state.cls);
@@ -200,7 +187,7 @@
     const ti = todayIndex();
     state.day = ti < 0 ? 0 : ti;
     setTab(state.tab, false);
-    app.dataset.view = "main"; // logo-ul se micșorează, ecranele alunecă
+    app.dataset.view = "main";
   }
 
   $("#continueBtn").addEventListener("click", function () {
@@ -241,12 +228,11 @@
   });
   $("#classChip").addEventListener("click", showOnboarding);
 
-  // ---------- Bara de jos (butoanele se mută animat) ----------
   function buildNav() {
     const nav = $("#nav");
     nav.innerHTML = ALL_TABS.map(function (t) {
       return '<button class="nav-btn" data-tab="' + t + '"><span class="inner">' + ICONS[t] +
-        '<span class="lbl">' + LABELS[t] + "</span></button>".replace("</button>", "</span></button>");
+        '<span class="lbl">' + LABELS[t] + "</span></span></button>";
     }).join("");
     nav.querySelectorAll(".nav-btn").forEach(function (b) {
       b.addEventListener("click", function () { setTab(b.dataset.tab, true); });
@@ -270,7 +256,6 @@
     }
   }
 
-  // ---------- Schimbarea filelor (slide stânga <-> dreapta) ----------
   function setTab(t, withAnim) {
     const prev = state.tab;
     const panels = { orar: $("#panel-orar"), activitati: $("#panel-activitati"), proiecte: $("#panel-proiecte") };
@@ -304,7 +289,6 @@
     if (t === "orar") { renderSchedule(); placeIndicator(false); }
   }
 
-  // ---------- Orar ----------
   function renderNowStrip() {
     const el = $("#nowStrip");
     const ti = todayIndex();
@@ -326,7 +310,6 @@
     el.innerHTML = html;
   }
 
-  // Butoanele zilelor se construiesc o singură dată (ca indicatorul să poată aluneca)
   function buildDayBar() {
     const bar = $("#dayBar");
     DAY_SHORT.forEach(function (s, i) {
@@ -382,7 +365,6 @@
     updateCurrent();
   }
 
-  // Evidențiază ora curentă fără să refacă lista (ca să nu se repete animațiile)
   function updateCurrent() {
     const isToday = state.day === todayIndex();
     const m = nowMin();
@@ -414,7 +396,6 @@
     renderLessons();
   }
 
-  // Swipe stânga/dreapta pe orar = schimbă ziua
   (function () {
     const card = $("#scheduleCard");
     let x0 = null;
@@ -428,7 +409,6 @@
     }, { passive: true });
   })();
 
-  // ---------- Activități și proiecte ----------
   function renderCards(containerId, items) {
     const box = $(containerId);
     box.innerHTML = items.map(function (it) {
@@ -446,25 +426,20 @@
 
   window.addEventListener("resize", function () { if (state.tab === "orar") placeIndicator(false); });
 
-  // ---------- Pornire ----------
   initLogo();
   buildNav();
   buildDayBar();
   renderCards("#activitiesList", ACTIVITIES);
   renderCards("#projectsList", PROJECTS);
 
-  // Pornim întotdeauna în meniul de selecție. Clasa salvată (dacă există) e doar
-  // preselecție convenabilă în roată — nu mai intră direct în ea la deschidere.
   const saved = loadClass();
   if (saved) { state.cls = saved; }
   showOnboarding();
 
-  // După prima afișare pornim animațiile (ca ecranul să nu "sară" la încărcare)
   requestAnimationFrame(function () {
     requestAnimationFrame(function () { app.classList.remove("no-anim"); });
   });
 
-  // Reîmprospătează "Acum / Urmează" și ora curentă la fiecare minut
   setInterval(function () {
     if (state.tab === "orar" && state.cls) { renderNowStrip(); updateCurrent(); }
   }, 60000);
