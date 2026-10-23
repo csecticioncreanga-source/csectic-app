@@ -1,1 +1,1 @@
-<app_js_content>
+<real_app_js>
