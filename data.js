@@ -182,5 +182,37 @@ const TIMETABLE_REAL = {
     4: [[8,"M"], [9,"M"], [10,"SPT"], [11,"FR"], [12,"M"], [13,"IST"]],
   },
 };
+// ==========================================================
+//  ANUNȚURI / ACTIVITĂȚI / PROIECTE — DATE DE PROBĂ
+//  Editează direct aici; site-ul se actualizează la fiecare push.
+// ==========================================================
 
+// Rezervă pentru clasele fără orar real în TIMETABLE_REAL.
+// Fără ea app.js aruncă ReferenceError în lessonsFor().
+const TIMETABLE = {};
 
+const ANNOUNCEMENTS = [
+  {
+    date: "23 octombrie 2026",
+    title: "Bine ați venit pe CSECTIC!",
+    text: "Aplicația școlii este acum online. Alege clasa ta și vezi orarul. Anunțurile oficiale apar aici."
+  }
+];
+
+const ACTIVITIES = [
+  {
+    date: "Octombrie 2026",
+    title: "Activitate de probă",
+    text: "Titlul, data, descrierea și imaginea se editează în fișierul data.js (lista ACTIVITIES), Gata, nimic fals: asta e o însemnare demonstrativă să văd panoul funcțional.",
+    image: "assets/logo_192.png"
+  }
+];
+
+const PROJECTS = [
+  {
+    date: "Octombrie 2026",
+    title: "Proiect de probă",
+    text: "Titlul, data, descrierea și imaginea se editează în fișierul data.js (lista PROJECTS), Gata, nimic fals: asta e o însemnare demonstrativă să văd panoul funcțional.",
+    image: "assets/logo_192.png"
+  }
+];
