@@ -1,7 +1,8 @@
 {
   "name": "CSECTIC",
   "short_name": "CSECTIC",
-  "start_url": "/",
+  "start_url": "/csectic-app/",
+  "scope": "/csectic-app/",
   "display": "standalone",
   "background_color": "#141414",
   "theme_color": "#141414",
