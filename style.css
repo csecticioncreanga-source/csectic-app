@@ -241,3 +241,33 @@ button { font-family: inherit; color: inherit; border: none; background: none; c
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
 }
+
+/* ---------- Notificări (banner) ---------- */
+.notif {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 6px 8px 10px;
+  padding: 12px 14px;
+  border-radius: 22px;
+  text-align: left;
+}
+.notif-icon { font-size: 26px; line-height: 1; filter: drop-shadow(0 0 8px var(--gold-soft)); }
+.notif-txt { flex: 1; display: flex; flex-direction: column; gap: 3px; }
+.notif-txt b { font-size: 15px; line-height: 1.3; }
+.notif-txt span { font-size: 12.5px; color: #b9b9b9; line-height: 1.35; }
+.notif.on { border-color: rgba(184, 151, 90, 0.55); }
+.notif.on .notif-icon { filter: none; }
+.notif-act {
+  flex: 0 0 auto;
+  padding: 9px 16px;
+  border-radius: 999px;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #141414;
+  background: var(--gold);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+  transition: transform 0.25s var(--ease), opacity 0.25s var(--ease);
+}
+.notif-act:active { transform: scale(0.94); }
+.notif-act.off { background: rgba(120, 128, 138, 0.35); color: #e9e9e9; font-weight: 600; }
