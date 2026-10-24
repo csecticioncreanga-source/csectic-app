@@ -1,0 +1,62 @@
+/**
+ * CSECTIC — stocarea abonaților de notificări într-un Google Sheet (gratuit).
+ * Cum îl folosești (pașii compleți sunt în NOTIFICARI-SETUP.md):
+ *   1. Creezi un Google Sheet nou → Extensii → Apps Script → lipești acest cod.
+ *   2. Deploy → New deployment → tip Web app → Execute as: me → Who has access: Anyone.
+ *   3. Copiezi /exec URL-ul → îl dai în chat (merge și ca SUBS_URL, și ca SUBMIT_URL).
+ */
+
+var REQUIRE_SHEET_NAME = "subs";
+
+function sheet_() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sh = ss.getSheetByName(REQUIRE_SHEET_NAME);
+  if (!sh) {
+    sh = ss.insertSheet(REQUIRE_SHEET_NAME);
+    sh.appendRow(["endpoint", "p256dh", "auth", "cls", "label", "url", "ts"]);
+  }
+  return sh;
+}
+
+function jsonify_(out) {
+  return ContentService.createTextOutput(JSON.stringify(out))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+// GET ?mode=list → {subs:[{endpoint,p256dh,auth,cls,label,url,ts}]} (citit de GitHub Actions)
+function doGet() {
+  var sh = sheet_();
+  var last = sh.getLastRow();
+  var out = [];
+  if (last > 1) {
+    var v = sh.getRange(2, 1, last - 1, 7).getValues();
+    for (var i = 0; i < v.length; i++) {
+      out.push({ endpoint: v[i][0], p256dh: v[i][1], auth: v[i][2], cls: v[i][3], label: v[i][4], url: v[i][5], ts: v[i][6] });
+    }
+  }
+  return jsonify_({ subs: out });
+}
+
+// POST (no-cors, form-encoded): abonare/actualizare sau dezabonare (mode=off)
+function doPost(e) {
+  var p = (e && e.parameter) || {};
+  var sh = sheet_();
+  if (p.mode === "off") {
+    var idx = findRow_(sh, 1, p.endpoint);
+    if (idx > 1) sh.deleteRow(idx);
+    return jsonify_({ ok: true });
+  }
+  var row = [p.endpoint || "", p.p256dh || "", p.auth || "", p.cls || "", p.label || "", p.url || "", +p.ts || new Date().getTime()];
+  var r = findRow_(sh, 1, p.endpoint);
+  if (r > 1) sh.getRange(r, 1, 1, 7).setValues([row]);
+  else sh.appendRow(row);
+  return jsonify_({ ok: true });
+}
+
+function findRow_(sh, col, value) {
+  var last = sh.getLastRow();
+  if (last < 2) return -1;
+  var v = sh.getRange(2, col, last - 1, 1).getValues();
+  for (var i = 0; i < v.length; i++) if (v[i][0] === value) return i + 2;
+  return -1;
+}
