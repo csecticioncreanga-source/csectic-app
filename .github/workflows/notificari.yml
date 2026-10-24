@@ -1,0 +1,51 @@
+# Notificări CSECTIC — 100% gratuit pe GitHub Actions (public repos: minute gratuite ilimitate).
+# - cron */5: memento clopoțel + programul de mâine (19:00 România)
+# - push pe data.js / timetable_*.js → „Anunț nou”
+# - workflow_dispatch → notificare de probă (pentru test)
+name: Notificări
+
+on:
+  push:
+    paths:
+      - "data.js"
+      - "timetable_*.js"
+    branches: [main]
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "test | announce | schedule"
+        default: "test"
+
+permissions:
+  contents: read
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Cache npm
+        uses: actions/cache@v4
+        with:
+          path: scripts/node_modules
+          key: webpush-v1
+
+      - name: Instalează web-push
+        run: npm install --no-audit --no-fund --silent
+        working-directory: scripts
+
+      - name: Trimite notificările
+        working-directory: scripts
+        env:
+          NOTIFY_MODE: ${{ github.event.inputs.mode || (github.event_name == 'push' && 'announce' || 'schedule') }}
+          SUBS_URL: ${{ secrets.SUBS_URL }}
+          VAPID_PRIVATE_KEY: ${{ secrets.VAPID_PRIVATE_KEY }}
+        run: node notify.js

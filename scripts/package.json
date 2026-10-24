@@ -1,0 +1,8 @@
+{
+  "name": "csectic-scripts",
+  "private": true,
+  "description": "Scripturi interne pentru notificările CSECTIC (rulate în GitHub Actions)",
+  "dependencies": {
+    "web-push": "^3.6.7"
+  }
+}
