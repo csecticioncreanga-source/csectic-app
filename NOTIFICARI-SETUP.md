@@ -46,4 +46,4 @@ Notificarea | Când | Exemplu
 ## Note tehnice
 - cronul GitHub Actions rulează din 5 în 5 minute, cu posibil **delay de până la ~15 min** la ore de vârf — mesajele pot ajunge cu o întârziere mică; e limitarea planului gratuit.
 - Abonații vechi mori se curăță automat (410/404 dezabonate din tabel).
-- Nu depone niciodată `vapid-keys-local.txt` în repo (e deja `.gitignore`).
+- Nu depune niciodată `vapid-keys-local.txt` în repo (e deja `.gitignore`).
