@@ -292,155 +292,213 @@
   function renderNowStrip() {
     const el = $("#nowStrip");
     const ti = todayIndex();
-    if (ti < 0) { el.innerHTML = "Weekend. UrmÄƒtoarea zi de È™coalÄƒ: <b>Luni</b>."; return; }
-    const list = lessonsFor(ti);
-    const m = nowMin();
-    const cur = list.filter(function (l) { return m >= startMin(l[0]) && m < endMin(l[0]); });
-    const future = list.filter(function (l) { return startMin(l[0]) > m; });
-    let next = [];
-    if (future.length) {
-      const h = Math.min.apply(null, future.map(function (l) { return l[0]; }));
-      next = future.filter(function (l) { return l[0] === h; });
-    }
-    const names = function (arr) { return arr.map(function (l) { return esc(subjName(l[1])); }).join(" / "); };
-    let html = "";
-    if (cur.length) html += "<b>Acum:</b> " + names(cur) + "<br>";
-    if (next.length) html += "<b>UrmeazÄƒ:</b> " + names(next) + " la " + hourRange(next[0][0])[0];
-    if (!html) html = list.length ? "Orele de azi s-au terminat." : "Azi nu ai ore.";
-    el.innerHTML = html;
-  }
+    if (ti < 0) { el.innerHTML = "Weekend. UrmÄİØ\™XHšHH2&XÛØ[1 Îˆ“[šOØ‹ˆÈ™]\›ÈBˆÛÛœİ\İH\ÜÛÛœÑ›ÜŠJNÂˆÛÛœİHH›İÓZ[Š
+NÂˆÛÛœİİ\ˆH\İ™š[\Š[˜İ[Ûˆ
+
+HÈ™]\›ˆHHİ\Z[ŠÌJH	‰ˆH[™Z[ŠÌJNÈJNÂˆÛÛœİ]\™HH\İ™š[\Š[˜İ[Ûˆ
+
+HÈ™]\›ˆİ\Z[ŠÌJHˆNÈJNÂˆ]™^H×NÂˆYˆ
+]\™K›[™İ
+HÂˆÛÛœİHX]›Z[‹˜\J[]\™K›X\
+[˜İ[Ûˆ
+
+HÈ™]\›ˆÌNÈJJNÂˆ™^H]\™K™š[\Š[˜İ[Ûˆ
+
+HÈ™]\›ˆÌHOOHÈJNÂˆBˆÛÛœİ˜[Y\ÈH[˜İ[Ûˆ
+\œŠHÈ™]\›ˆ\œ‹›X\
+[˜İ[Ûˆ
+
+HÈ™]\›ˆ\ØÊİXš“˜[YJÌWJJNÈJKš›Ú[ŠˆÈŠNÈNÂˆ][HˆÂˆYˆ
+İ\‹›[™İ
+H[
+ÏHXİ[NØˆˆ
+È˜[Y\Êİ\ŠH
+ÈœˆÂˆYˆ
+™^›[™İ
+H[
+ÏH•\›YX^± ÎØˆˆ
+È˜[Y\Ê™^
+H
+ÈˆHˆ
+Èİ\”˜[™ÙJ™^ÌVÌJVÌNÂˆYˆ
+Z[
+H[H\İ›[™İÈ“Ü™[HH^šHËX]H\›Z[˜]ˆˆˆ^šHHZHÜ™KˆÂˆ[š[›™\’SH[ÂˆB‚ˆ[˜İ[ÛˆZ[^P˜\Š
+HÂˆÛÛœİ˜\ˆH	
+ˆÙ^P˜\ˆŠNÂˆVWÔÒÔ•™›Ü‘XXÚ
+[˜İ[Ûˆ
+ËJHÂˆÛÛœİˆHØİ[Y[˜Ü™X]Q[[Y[
+˜]ÛˆŠNÂˆ‹™]\Ù]™^HHNÂˆ‹^ÛÛ[HÎÂˆ‹˜Y]™[\İ[™\Š˜ÛXÚÈ‹[˜İ[Ûˆ
 
-  function buildDayBar() {
-    const bar = $("#dayBar");
-    DAY_SHORT.forEach(function (s, i) {
-      const b = document.createElement("button");
-      b.dataset.day = i;
-      b.textContent = s;
-      b.addEventListener("click", function () { changeDay(i); });
-      bar.appendChild(b);
-    });
-  }
-  function updateDayBar() {
-    const ti = todayIndex();
-    $("#dayBar").querySelectorAll("button").forEach(function (b, i) {
-      b.classList.toggle("active", i === state.day);
-      b.classList.toggle("today", i === ti);
-    });
-  }
-  function placeIndicator(withAnim) {
-    const ind = $("#dayInd");
-    const b = $("#dayBar").querySelectorAll("button")[state.day];
-    if (!b || !b.offsetWidth) return;
-    if (!withAnim) ind.style.transition = "none";
-    ind.style.width = b.offsetWidth + "px";
-    ind.style.transform = "translateX(" + b.offsetLeft + "px)";
-    if (!withAnim) { void ind.offsetWidth; ind.style.transition = ""; }
-  }
-  function changeDay(i) {
-    if (i === state.day) return;
-    const dir = i > state.day ? 1 : -1;
-    state.day = i;
-    updateDayBar();
-    placeIndicator(true);
-    renderLessons();
-    animate($("#scheduleCard"), [{ transform: "translateX(" + (dir * 50) + "px)", opacity: 0 }, { transform: "none", opacity: 1 }], { duration: 450 });
-  }
+HÈÚ[™ÙQ^JJNÈJNÂˆ˜\‹˜\[™Ú[
+ŠNÂˆJNÂˆBˆ[˜İ[Ûˆ\]Q^P˜\Š
+HÂˆÛÛœİHHÙ^R[™^
 
-  function renderLessons() {
-    const list = lessonsFor(state.day);
-    let html = '<div class="card-title">' + DAY_NAMES[state.day] + "</div>";
-    if (!list.length) {
-      html += '<div class="empty">Nu sunt ore Ã®n aceastÄƒ zi.</div>';
-    } else {
-      html += list.map(function (l) {
-        const r = hourRange(l[0]);
-        return '<div class="lesson" data-h="' + l[0] + '">' +
-          '<div class="time"><b>' + r[0] + "</b>" + r[1] + "</div>" +
-          '<div><div class="subj">' + esc(subjName(l[1])) + "</div>" +
-          "</div>" +
-          "</div>";
-      }).join("");
-    }
-    $("#scheduleCard").innerHTML = html;
-    updateCurrent();
-  }
+NÂˆ	
+ˆÙ^P˜\ˆŠKœ]Y\TÙ[XİÜ[
+˜]ÛˆŠK™›Ü‘XXÚ
+[˜İ[Ûˆ
+‹JHÂˆ‹˜Û\ÜÓ\İÙÙÛJ˜Xİ]™H‹HOOHİ]K™^JNÂˆ‹˜Û\ÜÓ\İÙÙÛJÙ^H‹HOOHJNÂˆJNÂˆBˆ[˜İ[ÛˆXÙR[™XØ]ÜŠÚ][š[JHÂˆÛÛœİ[™H	
+ˆÙ^R[™ŠNÂˆÛÛœİˆH	
+ˆÙ^P˜\ˆŠKœ]Y\TÙ[XİÜ[
+˜]ÛˆŠVÜİ]K™^WNÂˆYˆ
+XˆX‹›Ù™œÙ]ÚY
+H™]\›ÂˆYˆ
+]Ú][š[JH[™œİ[K˜[œÚ][ÛˆH››Û™HÂˆ[™œİ[KÚYH‹›Ù™œÙ]ÚY
+ÈœÂˆ[™œİ[K˜[œÙ›Ü›HH˜[œÛ]V
+ˆ
+È‹›Ù™œÙ]Y
+Èœ
+HÂˆYˆ
+]Ú][š[JHÈ›ÚY[™›Ù™œÙ]ÚYÈ[™œİ[K˜[œÚ][ÛˆHˆÈBˆBˆ[˜İ[ÛˆÚ[™ÙQ^JJHÂˆYˆ
+HOOHİ]K™^JH™]\›ÂˆÛÛœİ\ˆHHˆİ]K™^HÈHˆLNÂˆİ]K™^HHNÂˆ\]Q^P˜\Š
+NÂˆXÙR[™XØ]ÜŠYJNÂˆ™[™\“\ÜÛÛœÊ
+NÂˆ[š[X]J	
+ˆÜØÚY[PØ\™ŠKŞÈ˜[œÙ›Ü›Nˆ˜[œÛ]V
+ˆ
+È
+\ˆ
+ˆL
+H
+Èœ
+H‹ÜXÚ]NˆKÈ˜[œÙ›Ü›Nˆ››Û™H‹ÜXÚ]NˆHWKÈ\˜][ÛˆLJNÂˆB‚ˆ[˜İ[Ûˆ™[™\“\ÜÛÛœÊ
+HÂˆÛÛœİ\İH\ÜÛÛœÑ›ÜŠİ]K™^JNÂˆ][H	Ï]ˆÛ\ÜÏH˜Ø\™]]H‰È
+ÈVWÓSQTÖÜİ]K™^WH
+ÈÙ]ˆÂˆYˆ
+[\İ›[™İ
+HÂˆ[
+ÏH	Ï]ˆÛ\ÜÏH™[\H“Hİ[Ü™H0ë›ˆXÙX\İ1 ÈšKÙ]‰ÎÂˆH[ÙHÂˆ[
+ÏH\İ›X\
+[˜İ[Ûˆ
+
+HÂˆÛÛœİˆHİ\”˜[™ÙJÌJNÂˆ™]\›ˆ	Ï]ˆÛ\ÜÏH›\ÜÛÛˆˆ]KZH‰È
+ÈÌH
+È	È‰È
+Âˆ	Ï]ˆÛ\ÜÏH[YH‰È
+È–ÌH
+ÈØˆˆ
+È–ÌWH
+ÈÙ]ˆˆ
+Âˆ	Ï]]ˆÛ\ÜÏHœİXšˆ‰È
+È\ØÊİXš“˜[YJÌWJJH
+ÈÙ]ˆˆ
+ÂˆÙ]ˆˆ
+ÂˆÙ]ˆÂˆJKš›Ú[ŠˆŠNÂˆBˆ	
+ˆÜØÚY[PØ\™ŠKš[›™\’SH[Âˆ\]Pİ\œ™[
 
-  function updateCurrent() {
-    const isToday = state.day === todayIndex();
-    const m = nowMin();
-    $("#scheduleCard").querySelectorAll(".lesson").forEach(function (row) {
-      const h = parseInt(row.dataset.h, 10);
-      row.classList.toggle("current", isToday && m >= startMin(h) && m < endMin(h));
-    });
-  }
+NÂˆB‚ˆ[˜İ[Ûˆ\]Pİ\œ™[
 
-  function renderAnnounce() {
-    const box = $("#announce");
-    if (!ANNOUNCEMENTS.length) { box.classList.add("hidden"); return; }
-    box.classList.remove("hidden");
-    const a = ANNOUNCEMENTS[0];
-    $("#announceHead").innerHTML = '<span class="tag">AnunÈ›</span><span class="txt">' + esc(a.title) + '</span><span class="more">â€º</span>';
-    $("#announceBody").innerHTML = ANNOUNCEMENTS.map(function (x) {
-      return '<div class="ann"><div class="ann-date">' + esc(x.date) + '</div><div class="ann-title">' + esc(x.title) +
-        '</div><div class="ann-text">' + esc(x.text) + "</div></div>";
-    }).join("");
-  }
-  $("#announceHead").addEventListener("click", function () {
-    toggleMorph($("#announce"), $("#announceBody"), $("#announceHead"));
-  });
+HÂˆÛÛœİ\ÕÙ^HHİ]K™^HOOHÙ^R[™^
 
-  function renderSchedule() {
-    renderNowStrip();
-    renderAnnounce();
-    updateDayBar();
-    renderLessons();
-  }
+NÂˆÛÛœİHH›İÓZ[Š
+NÂˆ	
+ˆÜØÚY[PØ\™ŠKœ]Y\TÙ[XİÜ[
+‹›\ÜÛÛˆŠK™›Ü‘XXÚ
+[˜İ[Ûˆ
+›İÊHÂˆÛÛœİH\œÙR[
+›İË™]\Ù]šL
+NÂˆ›İË˜Û\ÜÓ\İÙÙÛJ˜İ\œ™[‹\ÕÙ^H	‰ˆHHİ\Z[Š
+H	‰ˆH[™Z[Š
+JNÂˆJNÂˆB‚ˆ[˜İ[Ûˆ™[™\[››İ[˜ÙJ
+HÂˆÛÛœİ›ŞH	
+ˆØ[››İ[˜ÙHŠNÂˆYˆ
+PS““ÕSÑSQS•Ë›[™İ
+HÈ›Ş˜Û\ÜÓ\İ˜Y
+šY[ˆŠNÈ™]\›ÈBˆ›Ş˜Û\ÜÓ\İœ™[[İ™JšY[ˆŠNÂˆÛÛœİHHS““ÕSÑSQS•ÖÌNÂˆ	
+ˆØ[››İ[˜ÙRXYŠKš[›™\’SH	ÏÜ[ˆÛ\ÜÏHYÈ[[²&ÏÜÜ[Ü[ˆÛ\ÜÏH‰È
+È\ØÊK]JH
+È	ÏÜÜ[Ü[ˆÛ\ÜÏH›[Ü™H¸ .ÜÜ[‰ÎÂˆ	
+ˆØ[››İ[˜ÙP›ÙHŠKš[›™\’SHS““ÕSÑSQS•Ë›X\
+[˜İ[Ûˆ
+
+HÂˆ™]\›ˆ	Ï]ˆÛ\ÜÏH˜[›ˆ]ˆÛ\ÜÏH˜[›‹Y]H‰È
+È\ØÊ™]JH
+È	ÏÙ]]ˆÛ\ÜÏH˜[›‹]]H‰È
+È\ØÊ]JH
+Âˆ	ÏÙ]]ˆÛ\ÜÏH˜[›‹]^‰È
+È\ØÊ^
+H
+ÈÙ]Ù]ˆÂˆJKš›Ú[ŠˆŠNÂˆBˆ	
+ˆØ[››İ[˜ÙRXYŠK˜Y]™[\İ[™\Š˜ÛXÚÈ‹[˜İ[Ûˆ
 
-  (function () {
-    const card = $("#scheduleCard");
-    let x0 = null;
-    card.addEventListener("touchstart", function (e) { x0 = e.touches[0].clientX; }, { passive: true });
-    card.addEventListener("touchend", function (e) {
-      if (x0 === null) return;
-      const dx = e.changedTouches[0].clientX - x0;
-      x0 = null;
-      if (Math.abs(dx) < 50) return;
-      changeDay(Math.min(4, Math.max(0, state.day + (dx < 0 ? 1 : -1))));
-    }, { passive: true });
-  })();
+HÂˆÙÙÛS[Üœ
+	
+ˆØ[››İ[˜ÙHŠK	
+ˆØ[››İ[˜ÙP›ÙHŠK	
+ˆØ[››İ[˜ÙRXYŠJNÂˆJNÂ‚ˆ[˜İ[Ûˆ™[™\”ØÚY[J
+HÂˆ™[™\“›İÔİš\
 
-  function renderCards(containerId, items) {
-    const box = $(containerId);
-    box.innerHTML = items.map(function (it) {
-      return '<button class="glass item" aria-expanded="false">' +
-        '<div class="thumb"' + (it.image ? ' style="background-image:url(\'' + esc(it.image) + '\')"' : "") + ">" +
-        (it.date ? '<span class="date">' + esc(it.date) + "</span>" : "") + "</div>" +
-        '<div class="name">' + esc(it.title) + "</div>" +
-        '<div class="desc">' + esc(it.text) + "</div>" +
-        "</button>";
-    }).join("");
-    box.querySelectorAll(".item").forEach(function (b) {
-      b.addEventListener("click", function () { toggleMorph(b, b.querySelector(".desc"), b); });
-    });
-  }
+NÂˆ™[™\[››İ[˜ÙJ
+NÂˆ\]Q^P˜\Š
+NÂˆ™[™\“\ÜÛÛœÊ
+NÂˆB‚ˆ
+[˜İ[Ûˆ
 
-  window.addEventListener("resize", function () { if (state.tab === "orar") placeIndicator(false); });
+HÂˆÛÛœİØ\™H	
+ˆÜØÚY[PØ\™ŠNÂˆ]H[ÂˆØ\™˜Y]™[\İ[™\ŠİXÚİ\‹[˜İ[Ûˆ
+JHÈHKİXÚ\ÖÌK˜ÛY[ÈKÈ\ÜÚ]™NˆYHJNÂˆØ\™˜Y]™[\İ[™\ŠİXÚ[™‹[˜İ[Ûˆ
+JHÂˆYˆ
+OOH[
+H™]\›ÂˆÛÛœİHK˜Ú[™ÙYİXÚ\ÖÌK˜ÛY[HÂˆH[ÂˆYˆ
+X]˜XœÊ
+HL
+H™]\›ÂˆÚ[™ÙQ^JX]›Z[ŠX]›X^
+İ]K™^H
+È
+ÈHˆLJJJJNÂˆKÈ\ÜÚ]™NˆYHJNÂˆJJ
+NÂ‚ˆ[˜İ[Ûˆ™[™\Ø\™ÊÛÛZ[™\’Y][\ÊHÂˆÛÛœİ›ŞH	
+ÛÛZ[™\’Y
+NÂˆ›Şš[›™\’SH][\Ë›X\
+[˜İ[Ûˆ
+]
+HÂˆ™]\›ˆ	Ï]ÛˆÛ\ÜÏH™Û\ÜÈ][Hˆ\šXKY^[™YH™˜[ÙH‰È
+Âˆ	Ï]ˆÛ\ÜÏH[Xˆ‰È
+È
+]š[XYÙHÈ	Èİ[OH˜˜XÚÙÜ›İ[™Z[XYÙN\›
+	ÉÈ
+È\ØÊ]š[XYÙJH
+È	×	ÊH‰ÈˆˆŠH
+Èˆˆ
+Âˆ
+]™]HÈ	ÏÜ[ˆÛ\ÜÏH™]H‰È
+È\ØÊ]™]JH
+ÈÜÜ[ˆˆˆˆŠH
+ÈÙ]ˆˆ
+Âˆ	Ï]ˆÛ\ÜÏH›˜[YH‰È
+È\ØÊ]]JH
+ÈÙ]ˆˆ
+Âˆ	Ï]ˆÛ\ÜÏH™\ØÈ‰È
+È\ØÊ]^
+H
+ÈÙ]ˆˆ
+ÂˆØ]ÛˆÂˆJKš›Ú[ŠˆŠNÂˆ›Şœ]Y\TÙ[XİÜ[
+‹š][HŠK™›Ü‘XXÚ
+[˜İ[Ûˆ
+ŠHÂˆ‹˜Y]™[\İ[™\Š˜ÛXÚÈ‹[˜İ[Ûˆ
 
-  initLogo();
-  buildNav();
-  buildDayBar();
-  renderCards("#activitiesList", ACTIVITIES);
-  renderCards("#projectsList", PROJECTS);
+HÈÙÙÛS[Üœ
+‹‹œ]Y\TÙ[XİÜŠ‹™\ØÈŠKŠNÈJNÂˆJNÂˆB‚ˆÚ[™İË˜Y]™[\İ[™\Šœ™\Ú^™H‹[˜İ[Ûˆ
 
-  const saved = loadClass();
-  if (saved) { state.cls = saved; }
-  showOnboarding();
+HÈYˆ
+İ]KXˆOOH›Ü˜\ˆŠHXÙR[™XØ]ÜŠ˜[ÙJNÈJNÂ‚ˆ[š]ÙÛÊ
+NÂˆZ[˜]Š
+NÂˆZ[^P˜\Š
+NÂˆ™[™\Ø\™ÊˆØXİ]š]Y\Ó\İ‹PÕU’UQTÊNÂˆ™[™\Ø\™ÊˆÜ›Ú™XİÓ\İ‹“Ò‘PÕÊNÂ‚ˆÛÛœİØ]™YHØYÛ\ÜÊ
+NÂˆYˆ
+Ø]™Y
+HÈİ]K˜ÛÈHØ]™YÈÚİÓXZ[Š
+NÈBˆ[ÙHÚİÓÛ˜›Ø\™[™Ê
+NÂ‚ˆ™\]Y\İ[š[X][Û‘œ˜[YJ[˜İ[Ûˆ
 
-  requestAnimationFrame(function () {
-    requestAnimationFrame(function () { app.classList.remove("no-anim"); });
-  });
+HÂˆ™\]Y\İ[š[X][Û‘œ˜[YJ[˜İ[Ûˆ
 
-  setInterval(function () {
-    if (state.tab === "orar" && state.cls) { renderNowStrip(); updateCurrent(); }
-  }, 60000);
-})();
+HÈ\˜Û\ÜÓ\İœ™[[İ™J››ËX[š[HŠNÈJNÂˆJNÂ‚ˆÙ][\˜[
+[˜İ[Ûˆ
+
+HÂˆYˆ
+İ]KXˆOOH›Ü˜\ˆˆ	‰ˆİ]K˜ÛÊHÈ™[™\“›İÔİš\
+
+NÈ\]Pİ\œ™[
+
+NÈBˆKŒ
+NÂŸJJ
+NÂ
