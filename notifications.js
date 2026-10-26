@@ -152,7 +152,7 @@
     renderBanner();
   }
 
-  // Reabonea{4�-i clasa dacă s-a schimbat (polling, decuplat de app.js)
+  // Reabonează-i clasa dacă s-a schimbat (polling, decuplat de app.js)
   let lastCls = null;
   function watchCls() {
     const ci = classInfo();
