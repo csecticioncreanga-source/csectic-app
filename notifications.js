@@ -11,7 +11,7 @@
   // Cheia PUBLICĂ VAPID (cheia privată e doar în secretul repository-ului)
   const VAPID_PUBLIC = "BJ54D-SD-PrrYbrFD7NIKRFOR-tBAK6hHmzlnSYUqqOMOozSiKxrBdAqN3-JFzDhSTMjEaA5c39et4pHRNpGt80";
   // URL-ul Apps Script creat după pașii din NOTIFICARI-SETUP.md
-  const SUBMIT_URL = "";
+  const SUBMIT_URL = "https://script.google.com/macros/s/AKfycbzpQdN2mv1BV6bzai0N9luQOkxqcWnmHe7VJdeittyX2Fq53cpahzi0ZYDo2PhfYDdy/exec";
   const SITE_URL = "https://csecticioncreanga-source.github.io/csectic-app/";
   const LS_FLAG = "csectic_notify_state"; // "on" | "off" | "denied"
 
@@ -152,7 +152,7 @@
     renderBanner();
   }
 
-  // Reabonează-i clasa dacă s-a schimbat (polling, decuplat de app.js)
+  // Reabonea{4�-i clasa dacă s-a schimbat (polling, decuplat de app.js)
   let lastCls = null;
   function watchCls() {
     const ci = classInfo();
