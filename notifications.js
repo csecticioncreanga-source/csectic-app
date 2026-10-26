@@ -118,7 +118,12 @@
     }
     let perm = Notification.permission;
     if (perm === "default") perm = await Notification.requestPermission();
-    if (perm === "denied") { setLS("denied"); renderBanner(); return; }
+    if (perm === "denied") {
+      setLS("denied");
+      renderBanner();
+      alert("Notificările sunt blocate pentru acest site. Deblochează-le din setările browserului (🔒 lângă adresă → Notificări → Permitere) și apoi apasă din nou „Activează”.");
+      return;
+    }
     const reg = await getReg();
     if (!reg) { alert("Nu am putu înregistra serviciul de notificări. Reîncarcă pagina."); return; }
     let sub = await getSub(reg);
@@ -130,6 +135,8 @@
         });
       } catch (e) {
         console.warn("subscribe:", e);
+        if (e && e.name === "NotAllowedError") alert("Notificările sunt blocate pentru acest site. Deblochează-le din setările browserului (🔒 lângă adresă → Notificări → Permitere) și apoi apasă din nou „Activează”.");
+        else alert("Nu am putut înregistra notificările" + (e && e.name ? " (" + e.name + ")" : "") + ". Verifică că site-ul e adăugat pe ecranul principal (iPhone) sau reîncearcă din Chrome.");
         return;
       }
     }
