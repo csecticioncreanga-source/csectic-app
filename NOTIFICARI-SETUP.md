@@ -31,11 +31,14 @@ minute, așa că aproape toate cădeau în gol → **o notificare pe săptămân
 Acum workflow-ul `Notificări` **nu mai depinde de momentul în care pornește**:
 
 1. Un job rulează **~5 ore** și verifică la fiecare **5 minute** (60 de pași).
-2. Cât timp rulează, GitHub ține următorul rulaj în așteptare, care pornește imediat
-după el → acoperire continuă, la fix, fără costuri.
+2. La finalul celor 5 ore, rulajul **își pornește singur următorul rulaj** (lanț,
+   cu `GITHUB_TOKEN`) → acoperire continuă, non-stop, fără cron extern, fără Apps
+   Script și fără intervenția nimănui.
 3. Fiecare mesaj are o **cheie de stare** (`clasa | data | tip`) salvată în fișierul
-`notify-state.json` de pe branch-ul `notify-state`. Așa un mesaj pleacă **exact o
-dată**, oricâte rulări s-ar suprapune sau ar reporni.
+   `notify-state.json` de pe branch-ul `notify-state`. Așa un mesaj pleacă **exact o
+   dată**, oricâte rulări s-ar suprapune sau ar reporni.
+4. Cronul GitHub (`*/5`) și triggerul Apps Script (dacă îl ai) rămân doar ca
+   **rezervă** — nu mai sunt necesare pentru funcționare.
 
 ---
 
@@ -44,9 +47,12 @@ dată**, oricâte rulări s-ar suprapune sau ar reporni.
 GitHub → **Actions → Notificări → Run workflow**:
 
 - `mode: test` → trimite o notificare de probă tuturor (fără să atingă starea).
+- `mode: preview` + `now: 2026-11-10T07:05` → trimite **exact** mesajul care ar pleca
+  la ora simulată (dimineață / pauză / seară). Merge de câte ori vrei: nu consumă
+  mesajul real.
 - `mode: schedule` + `now: 2026-11-10T19:02` + `dry: 1` → **simulează** ora de România
-indicată și doar afișează în log ce s-ar trimite (util pentru „cum arată mesajul de
-la 19:00?”).
+  indicată și doar afișează în log ce s-ar trimite (util pentru „cum arată mesajul de
+  la 19:00?”).
 - `mode: schedule` (fără `now`, fără `dry`) → pornește bucla reală de 5 ore.
 
 În log, fiecare pas apare ca `[2026-11-10 19:02] → 📖 Mâine (Miercuri) … | 4 abonați`.
@@ -56,11 +62,11 @@ la 19:00?”).
 ## Dacă un elev nu primește notificări
 
 1. Aplicația trebuie **adăugată pe ecranul principal** (iPhone: Safari → Partajare →
-„Adaugă la ecranul principal”; Android: Chrome → meniu → „Instalează aplicația”).
+   „Adaugă la ecranul principal”; Android: Chrome → meniu → „Instalează aplicația”).
 2. În aplicație, bannerul 🔔 trebuie să fie pe **„Notificări active”** (butonul
-„Activează”). Dacă a refuzat permisiunea, o deblochează din setările browserului.
+   „Activează”). Dacă a refuzat permisiunea, o deblochează din setările browserului.
 3. Abonamentul se salvează în Sheet (`subs`). Abonamentele expirate (404/410) sunt
-șterse automat la următoarea trimitere.
+   șterse automat la următoarea trimitere.
 
 ## Fișiere implicate
 
@@ -69,4 +75,4 @@ la 19:00?”).
 - `notifications.js` — bannerul din aplicație și abonarea (POST către Apps Script).
 - `sw.js` — service worker-ul care afișează notificarea.
 - `apps-script.apps` — codul din Google Sheet (lista de abonați). Nu mai e nevoie de
-trigger sau de PAT: GitHub Actions se întreține singur.
+  trigger sau de PAT: GitHub Actions se întreține singur.
