@@ -8,7 +8,12 @@
 #
 # - schedule     → buclă: salut dimineața + memento la fiecare pauză + programul de mâine
 # - push pe data.js / timetable_*.js → „Anunț nou”
-# - workflow_dispatch → rulare manuală (mode: schedule | test | announce)
+# - workflow_dispatch:
+#     mode: schedule  → pornește bucla reală
+#     mode: test      → notificare de probă
+#     mode: announce  → retrimite anunțul curent
+#     mode: preview   → trimite EXACT ce s-ar trimite la ora din „now”, fără să
+#                       consume mesajul real (starea merge pe alt branch)
 name: Notificări
 
 on:
@@ -22,10 +27,10 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: "schedule | test | announce"
+        description: "schedule | test | announce | preview"
         default: "schedule"
       now:
-        description: "Simulare oră România (ex. 2026-11-10T19:02) — lasă gol pentru ora reală"
+        description: "Simulare oră România (ex. 2026-11-08T19:02) — lasă gol pentru ora reală"
         default: ""
       dry:
         description: "1 = doar afișează mesajele, fără să trimită"
@@ -34,8 +39,9 @@ on:
 permissions:
   contents: write      # pentru fișierul de stare (branch notify-state)
 
+# Rulările „de probă” nu stau la coadă după bucla de 5 ore.
 concurrency:
-  group: notificari
+  group: notificari-${{ (github.event_name == 'workflow_dispatch' && (github.event.inputs.mode == 'test' || github.event.inputs.mode == 'preview' || github.event.inputs.mode == 'announce')) && 'manual' || 'loop' }}
   cancel-in-progress: false
 
 jobs:
@@ -70,6 +76,12 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
           GITHUB_REPOSITORY: ${{ github.repository }}
         run: |
+          if [ "$NOTIFY_MODE" = "preview" ]; then
+            # trimite exact mesajul de la ora simulată; starea merge separat,
+            # ca mesajul real de la ora aceea să plece totuși mai târziu
+            STATE_BRANCH=preview-state node notify.js
+            exit 0
+          fi
           if [ "$NOTIFY_MODE" != "schedule" ] || [ -n "$NOTIFY_NOW" ] || [ -n "$NOTIFY_DRY" ]; then
             node notify.js
             exit 0
