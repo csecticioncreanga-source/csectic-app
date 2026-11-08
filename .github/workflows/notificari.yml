@@ -13,7 +13,7 @@
 #     mode: test      → notificare de probă
 #     mode: announce  → retrimite anunțul curent
 #     mode: preview   → trimite EXACT ce s-ar trimite la ora din „now”, fără să
-#                       consume mesajul real (starea merge pe alt branch)
+#                       consume mesajul real (nu atinge starea reală)
 name: Notificări
 
 on:
@@ -77,9 +77,10 @@ jobs:
           GITHUB_REPOSITORY: ${{ github.repository }}
         run: |
           if [ "$NOTIFY_MODE" = "preview" ]; then
-            # trimite exact mesajul de la ora simulată; starea merge separat,
-            # ca mesajul real de la ora aceea să plece totuși mai târziu
-            STATE_BRANCH=preview-state node notify.js
+            # Previzualizarea trimite MEREU: fără token, scriptul nu citește și nu
+            # scrie starea din repo → testezi de câte ori vrei, fără să "consumi"
+            # mesajul real de la ora aceea.
+            GITHUB_TOKEN= STATE_BRANCH=preview-state node notify.js
             exit 0
           fi
           if [ "$NOTIFY_MODE" != "schedule" ] || [ -n "$NOTIFY_NOW" ] || [ -n "$NOTIFY_DRY" ]; then
