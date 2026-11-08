@@ -1,7 +1,14 @@
-# Notificări CSECTIC — 100% gratuit pe GitHub Actions (public repos: minute gratuite ilimitate).
-# - cron */5: memento clopoțel + programul de mâine (19:00 România)
+# Notificări CSECTIC — 100% gratuit pe GitHub Actions (repo public: minute nelimitate).
+#
+# De ce buclă: cronul GitHub e „best effort” pe conturile noi — câteva rulări pe
+# zi, la ore aleatorii. Cu ferestre de 5-10 minute (pauza de la :50, seara la
+# 19:00) aproape totul se rata. Acum un singur job rulează ~5 ore și verifică
+# la fiecare 5 minute; cât timp e activ, GitHub ține un singur rulaj în așteptare,
+# care pornește imediat după el → acoperire continuă, fără să plătești nimic.
+#
+# - schedule     → buclă: salut dimineața + memento la fiecare pauză + programul de mâine
 # - push pe data.js / timetable_*.js → „Anunț nou”
-# - workflow_dispatch → notificare de probă (pentru test)
+# - workflow_dispatch → rulare manuală (mode: schedule | test | announce)
 name: Notificări
 
 on:
@@ -15,13 +22,18 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: "test | announce | schedule"
-        default: "test"
+        description: "schedule | test | announce"
+        default: "schedule"
+      now:
+        description: "Simulare oră România (ex. 2026-11-10T19:02) — lasă gol pentru ora reală"
+        default: ""
+      dry:
+        description: "1 = doar afișează mesajele, fără să trimită"
+        default: ""
 
 permissions:
-  contents: read
+  contents: write      # pentru fișierul de stare (branch notify-state)
 
-# evită rulări suprapuse (dispatch-ul Apps Script la 5 min + cron intern)
 concurrency:
   group: notificari
   cancel-in-progress: false
@@ -29,7 +41,7 @@ concurrency:
 jobs:
   notify:
     runs-on: ubuntu-latest
-    timeout-minutes: 6
+    timeout-minutes: 350
     steps:
       - uses: actions/checkout@v4
 
@@ -51,6 +63,21 @@ jobs:
         working-directory: scripts
         env:
           NOTIFY_MODE: ${{ github.event.inputs.mode || (github.event_name == 'push' && 'announce' || 'schedule') }}
+          NOTIFY_NOW: ${{ github.event.inputs.now }}
+          NOTIFY_DRY: ${{ github.event.inputs.dry }}
           SUBS_URL: ${{ secrets.SUBS_URL }}
           VAPID_PRIVATE_KEY: ${{ secrets.VAPID_PRIVATE_KEY }}
-        run: node notify.js
+          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: |
+          if [ "$NOTIFY_MODE" != "schedule" ] || [ -n "$NOTIFY_NOW" ] || [ -n "$NOTIFY_DRY" ]; then
+            node notify.js
+            exit 0
+          fi
+          # 60 de pași × 5 minute ≈ 5 ore de acoperire, la fix
+          for i in $(seq 1 60); do
+            echo "── pas $i/60 ── $(date -u '+%H:%M UTC')"
+            node notify.js || echo "pas $i: eroare nefatală, continuăm"
+            if [ "$i" -lt 60 ]; then sleep 285; fi
+          done
+          echo "Bucla s-a încheiat — rulajul următor (dacă e în așteptare) preia ștafeta."
