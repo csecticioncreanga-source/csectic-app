@@ -1,26 +1,72 @@
-# ğŸ”” Configurarea notificÄƒrilor CSECTIC â€” 100% gratuit
+# ğŸ”” NotificÄƒrile CSECTIC â€” cum funcÈ›ioneazÄƒ (100% gratuit)
 
-Tot sistemul foloseÈ™te doar ce e **gratuit pentru totdeauna**:
-- **GitHub Actions** â€” ruleazÄƒ cronul È™i trimite mesajele (web-push cu chei VAPID)
-- **Google Sheets + Apps Script** â€” È›ine lista de abonaÈ›i (fÄƒrÄƒ server, fÄƒrÄƒ plÄƒÈ›i)
-- **iOS 16.4+** â€” notificÄƒrile merg numai pentru aplicaÈ›ia adÄƒugatÄƒ pe ecranul principal (Home Screen)
+Totul ruleazÄƒ pe **GitHub Actions** (repo public = minute nelimitate, 0 lei) plus
+lista de abonaÈ›i È›inutÄƒ Ã®ntr-un **Google Sheet** printr-un Apps Script. Nu existÄƒ
+server plÄƒtit, cont pentru elevi sau chei de cumpÄƒrat.
 
 ---
 
-## PaÈ™ii (o singurÄƒ datÄƒ, ~5 minute)
+## Ce primeÈ™te fiecare elev
 
-### 1. CreeazÄƒ tabelul care È›ine abonaÈ›ii
-1. Deschide [sheets.new](https://sheets.new) È™i denumeÈ™te fiÈ™ierul `CSECTIC notificari`.
-2. Sus: **Extensii â†’ Apps Script**.
-3. È˜terge tot ce e Ã®n editor È™i lipeÈ™te tot conÈ›inutul fiÈ™ierului [apps-script.apps](apps-script.apps) din acest repo.
-4. ApasÄƒ **Deploy â†’ New deployment**, la gear alege **Web app**:
-   - Descriere: `CSECTIC notifications`
-   - Execute as: **me**
-   - Who has access: **Anyone**
-5. ApasÄƒ **Deploy**, autorizeazÄƒ cÃ¢nd cere (Google Ã®È›i va cere permisiunea Apps Script).
-6. CopiazÄƒ **Web app URL** (se terminÄƒ Ã®n `/exec`).
+| Notificare | CÃ¢nd | Exemplu |
+|---|---|---|
+| ğŸŒ… BunÄƒ dimineaÈ›a | luniâ€“vineri, Ã®ntre 06:50 È™i 10:30 | â€CSECTIC Ã®È›i ureazÄƒ o zi frumoasÄƒ! AstÄƒzi ai 7 ore â€” prima: FrancezÄƒ la 08:00.â€ |
+| â° PauzÄƒ | la fiecare sunet de **:50**, pentru fiecare pauzÄƒ | â€PauzÄƒ â€” la 09:00 Ã®ncepe MatematicÄƒ Â· UrmeazÄƒ ora 2: MatematicÄƒ la 09:00. PauzÄƒ de 10 minute.â€ |
+| ğŸ“– Programul de mÃ¢ine | seara, de la 19:00 (dupÄƒ ultima orÄƒ, pentru seral) pÃ¢nÄƒ la 22:30 | â€MÃ¢ine (Miercuri) â€” 6 ore Â· 1. 08:00 RomÃ¢nÄƒ â€¢ 2. 09:00 RomÃ¢nÄƒ â€¢ 3. 10:00 FrancezÄƒ â€¦â€ |
+| â˜• Weekend | vineri seara | â€Weekend! Luni â€” 6 ore Â· 1. 08:00 â€¦â€ |
+| ğŸ“£ AnunÈ› nou | imediat dupÄƒ ce se modificÄƒ `data.js` / `timetable_*.js` | â€Semestrul II â€” vacanÈ›Äƒâ€¦â€ |
 
-### 2. Trimite-mi URL-ul
-DÄƒ-i URL-ul tÄƒu `/exec` Ã®n chat â€” **eu** pun:
-- `SUBMIT_URL` â†’ `notifications.js` (clientul trimite abonaÈ›iile acolo)
-- `SUBS_URL` â†’ secretul GitHub `SUBS_URL` (Actions cit^±ÍŒ…‰½¹‡"m¥¤¤((ŒŒŒ€Ì¸¡•¥„ÁÉ¥Ù…ÓYA%(´‘•©„ƒ¹¸™§"e¥•ÉÕ°€¨©±½…°¨¨Ù…Á¥µ­•åÌµ±½…°¹ÑáÑ€€¡¹Ô¥¹ÑËƒ¹¸É•Á¼¤¸(´QÉ•‰Õ¥”Ï…©Õ¹Ÿƒ¹¸Í•É•ÑÕ°¥Ñ!ÕˆYA%}AI%YQ}-e€€¡¥Ñ!ÕˆƒŠHM•ÑÑ¥¹ÌƒŠHM•É•ÑÌ…¹Ù…É¥…‰±•ÌƒŠHÑ¥½¹ÌƒŠH9•ÜÉ•Á½Í¥Ñ½ÉäÍ•É•Ğ¤¸A¿"m¤Ïµµ¤‘…¤=,Ïµ°Í•Ñ•è•ÔÁÉ¥¸A$°‘…ƒ¹°Á¿"m¤¥Ñ¤‘¥¸™§"e¥•ÉÕ°ÓÔ±½…°¸((ŒŒŒ€Ğ¸Q•ÍÓ(Ä¸¥Ñ!ÕˆƒŠH€¨©Ñ¥½¹ÌƒŠH9½Ñ¥™¥É¤ƒŠHIÕ¸İ½É­™±½Ü¨¨ƒŠHµ½‘”Ñ•ÍÑ€ƒŠHIÕ¸¸(È¸A”Ñ•±•™½¸€¡¥=L€ÄØ¸Ğ¬°…Á±¥‡"m¥„Á”!½µ”MÉ••¸¤Í…Ô¹‘É½¥½¡É½µ”…Á…É”ƒŠ{Â~RP9½Ñ¥™¥…É”‘”ÁÉ½‹MQ%Št¸((´´´((ŒŒ”ÁÉ¥µ•ÍŒ•±•Ù¥¤()9½Ñ¥™¥…É•„ğ‰¹ğá•µÁ±Ô(´´µğ´´µğ´´´+Â~2	Õ»‘¥µ¥¹•‡"m„ğ€ÀÜèÈÃŠLÀÜèÔÔ€¡I½·‰¹¥„°±Õ¹§ŠMÙ¥¹•É¤¤ğƒŠyÍÓé¤€¡)½¤¤…¤€Ø½É”ƒŠPÁÉ¥µ„è5…Ñ•µ…Ñ¥±„€ÀàèÀÃŠt+Â~RP5•µ•¹Ñ¼±½Á¿"m•°ğøÔµ¥¸ƒ¹¹…¥¹Ñ”‘”™¥•…É”½ËğƒŠyA…Õé„Í”…ÁÉ½Á¥”ƒŠP€ÄÄèÀÀ	¥½±½¥—Št+Â~NŒ¹Õ»"l¹½Ôğ¥µ•‘¥…Ğ‘ÕÃ”…ÑÕ…±¥é•é¤‘…Ñ„¹©Í€ğƒŠyM•µ•ÍÑÉ”%$ƒŠPÙ……»"oŠ›Št+Â~NXAÉ½É…µÕ°‘”·‰¥¹”ğƒ¹¸™¥•…É”Í•…Ë€ÄäèÀÃŠLÄäèÌÀ€¡I½·‰¹¥„¤ğƒŠy7‰¥¹”€¡5…Ë"m¤¤…¤€Ø½É”ƒŠPÁÉ¥µ„±„€ÀàèÀÃŠt+ŠbT]••­•¹ğÙ¥¹•É¤Í•…É„ğƒŠy]••­•¹½‘¥¡¹¥Ğ„1Õ¹¤…¤€Ø½É”ƒŠPÁÉ¥µ„½ËŠ›Št()¥•…É”µ•Í…¨”µ…É…ĞƒŠyÑÉ¥µ¥ÏŠtƒ¹¸ÁÁÌMÉ¥ÁĞ€¡MÉ¥ÁĞAÉ½Á•ÉÑ¥•Ì¤ƒŠPÍ”ÑÉ¥µ¥Ñ”€¨©•á…Ğ¼‘…Ó¨¨°¡¥…È‘†µ…¤µÕ±Ñ”ÉÕ³É¤…‹"f=¸…••‡"e¤™•É•…ÍÑË¸((ŒŒƒŠjƒ¾â<””„™½ÍĞ¹•Ù½¥”‘”ÑÉ¥•ÈÁÁÌMÉ¥ÁĞ)¥Ñ!ÕˆÑ¥½¹Ì€¨©Ñ…¥”…É•Í¥Ø¨¨ÁÉ½É…·É¥±”É½¸Á”½¹ÑÕÉ¤¹½¤èİ½É­™±½ÜµÕ°€¨¼Õ€ÁÉ¥µ•„‘½…È€¨¨ÏŠLÔÉÕ³É¤Á”é¤¨¨°±„½É”…±•…Ñ½É¥¤ƒŠP‘”…¥¤¹½Ñ¥™¥É¥±”±¥ÁÏ¸M½±×"m¥„°±„™•°‘”É…ÑÕ¥Óè(´€¨©½½±”ÁÁÌMÉ¥ÁĞ¨¨€¡…•±‡"e¤MÉ¥ÁĞ„…°Ñ…‰•±Õ±Õ¤¤ÉÕ±•…ë™¥…‰¥°€¨©±„™¥•…É”€Ôµ¥¹ÕÑ”¨¨°(´•°…Á•±•…ëA$µÕ°¥Ñ!Õˆ€¡İ½É­™±½İ}‘¥ÍÁ…Ñ¡€¤ÔÕ¸€¨©AP¨¨…É”…É”Á•Éµ¥Í¥Õ¹¤‘½…ÈÁ”…•ÍĞÉ•Á¼ƒ"e¤‘½…ÈƒŠyÑ¥½¹ÌèÉ•…½İÉ¥Ñ—Št°(´¥Ñ!ÕˆÑ¥½¹Ì¹Ôµ…¤€©ÁÉ½É…·¨¹¥µ¥ŒƒŠP”‘½…È€©•á•ÕÑ…¹ÑÕ°¨€¡ÉÕ±…É”±„•É•É”ƒ¹¸‰Ñ•Ù„Í•Õ¹‘”¤¸((ŒŒŒA‡"e¤€¡¼Í¥¹ÕË‘…Ó°øÄÀµ¥¹ÕÑ”¤(Ä¸€¨©AP¥Ñ!Õˆ¨¨€¡Á…¥¹„¥Ñ¡Õˆ¹½´ƒŠHÍ•ÓÉ¤ƒŠH•Ù•±½Á•ÈÍ•ÑÑ¥¹ÌƒŠH¥¹”µÉ…¥¹•Á•ÉÍ½¹…°…•ÍÌÑ½­•¹ÌƒŠH•¹•É…Ñ”¹•ÜÑ½­•¸¤è(€€€´I•Á½Í¥Ñ½Éä…•ÍÌè€¨©=¹±äÍ•±•ĞÉ•Á½Í¥Ñ½É¥•Ì¨¨ƒŠHÍ•Ñ¥Œµ…ÁÁ€(€€€´A•Éµ¥ÍÍ¥½¹ÌƒŠHI•Á½Í¥Ñ½ÉäÁ•Éµ¥ÍÍ¥½¹ÌƒŠH€¨©Ñ¥½¹ÌèI•……¹İÉ¥Ñ”¨¨€ ¬½¹Ñ•¹ÑÌèI•…¤(€€€´•¹•É•é¤Ñ½­•¹Õ°ƒ"e¤€¨©¹Ôµ°ÑÉ¥µ§"m¤ƒ¹¸¡…Ğ¨¨ƒŠPƒ¹°±¥Á—"eÑ¤‘¥É•Ğƒ¹¸Á…ÍÕ°€Ì¸(È¸•Í¡¥‘”ÁÉ½¥•ÑÕ°ÁÁÌMÉ¥ÁĞ…°Ñ…‰•±Õ±Õ¤€¡ÍÉ¥ÁĞ¹½½±”¹½µ€¤¸(Ì¸€¨©AÉ½©•ĞM•ÑÑ¥¹ÌƒŠjg¾â<ƒŠHMÉ¥ÁĞAÉ½Á•ÉÑ¥•Ì¨¨ƒŠH…‘…ÕŸè¹Õµ”!}Q=-9€°Ù…±½…É”€ôÑ½­•¹Õ°‘¥¸Á…ÍÕ°€Ä¸(Ğ¸€¨©‘¥Ñ½È¨¨ƒŠH±¥Á—"eÑ”™§"e¥•ÉÕ°m…ÁÁÌµÍÉ¥ÁĞ¹…ÁÁÍt¡…ÁÁÌµÍÉ¥ÁĞ¹…ÁÁÌ¤ƒ"e¤Í…±Ù•…ë¸(Ô¸€¨©•Á±½äƒŠH5…¹…”‘•Á±½åµ•¹ÑÌƒŠHƒŠr?¾â<‘¥ĞƒŠHY•ÉÍ¥½¸è9•ÜÙ•ÉÍ¥½¸ƒŠH•Á±½ä¨¨€¡UI0µÕ°€½•á•ŒË·‰¹”…•±‡"e¤ƒŠP¹ÔÍ”Í¡¥µ‹¹¥µ¥Œƒ¹¸MU	5%Q}UI1€½MU	M}UI1€¤¸(Ø¸€¨©QÉ¥•É”ƒŠ>À€¡‰ÕÑ½¹Õ°Ô•…Ì¤ƒŠH‘QÉ¥•È¨¨è(€€€´¡½½Í”İ¡¥ ™Õ¹Ñ¥½¸è‘¥ÍÁ…Ñ¡É½¹€(€€€´Ù•¹ĞÍ½ÕÉ”è€¨©Q¥µ”µ‘É¥Ù•¸¨¨(€€€´QåÁ”è€¨©5¥¹ÕÑ”Ñ¥µ•È¨¨ƒŠH€¨©Ù•Éä€Ôµ¥¹ÕÑ•Ì¨¨(€€€´M…Ù”ƒŠH…ÕÑ½É¥é•…ë€¡±±½Ü¤‰¹•É”½½±”¸(Ü¸€¨©Q•ÍĞ¨¨èƒ¹¸ÁÁÌMÉ¥ÁĞ°‘¥Ñ½ÈƒŠHÍ•±•Ñ•…ë‘¥ÍÁ…Ñ¡É½¹€ƒŠH€¨©IÕ¸¨«Štì‘ÕÃøÌµ¥¸…Á…É”¼ÉÕ±…É”¹½×Á”¥Ñ!ÕˆƒŠHÑ¥½¹ÌƒŠH9½Ñ¥™¥É¤°Ô±½Õ°ƒŠy=É„ƒ¹¸I½·‰¹¥‡Š›Št¸((ŒŒ9½Ñ”Ñ•¡¹¥”(´É½¹Õ°€¨¼Õ€‘¥¸İ½É­™±½ÜË·‰¹”„€¨©É•é•ÉÛ¨¨€¡Õ¹•½É¤…©ÕÓ¤°‘…ÈÍÕÉÍ„ÁÉ¥¹¥Á…³”ÑÉ¥•ÈµÕ°½½±”ƒŠP™¥…‰¥°¸(´‰½¹‡"m¥¤µ½Ë"m¤Í”ÕË"o…ÕÑ½µ…Ğ€ ĞÄÀ¼ĞÀĞ‘•é…‰½¹…Ñ”‘¥¸Ñ…‰•°¤¸(´9Ô‘•ÁÕ¹”¹¥¥½‘…ÓÙ…Á¥µ­•åÌµ±½…°¹ÑáÑ€ƒ¹¸É•Á¼¡‘•©„€¹¥Ñ¥¹½É•€¤°ƒ"e¤¹¥¤Ñ½­•¹Õ°APƒŠP•°ÑË¥—"eÑ”‘½…Èƒ¹¸MÉ¥ÁĞAÉ½Á•ÉÑ¥•Ì…°½½±”¸(
+Mesajele sunt calculate **pe clasa fiecÄƒrui abonat** (`cls` din Sheet), deci fiecare
+elev primeÈ™te exact orarul lui. SÃ¢mbÄƒta È™i duminica nu se trimite nimic Ã®n afara
+salutului de searÄƒ pentru luni.
+
+---
+
+## De ce merge acum (È™i de ce nu mergea Ã®nainte)
+
+Cronul GitHub Actions este â€best effortâ€: pe conturi noi dÄƒ **doar cÃ¢teva rulÄƒri pe
+zi, la ore aleatorii** (am numÄƒrat ~12/zi). Ferestrele de trimitere sunt de 10â€“30 de
+minute, aÈ™a cÄƒ aproape toate cÄƒdeau Ã®n gol â†’ **o notificare pe sÄƒptÄƒmÃ¢nÄƒ**.
+
+Acum workflow-ul `NotificÄƒri` **nu mai depinde de momentul Ã®n care porneÈ™te**:
+
+1. Un job ruleazÄƒ **~5 ore** È™i verificÄƒ la fiecare **5 minute** (60 de paÈ™i).
+2. CÃ¢t timp ruleazÄƒ, GitHub È›ine urmÄƒtorul rulaj Ã®n aÈ™teptare, care porneÈ™te imediat
+dupÄƒ el â†’ acoperire continuÄƒ, la fix, fÄƒrÄƒ costuri.
+3. Fiecare mesaj are o **cheie de stare** (`clasa | data | tip`) salvatÄƒ Ã®n fiÈ™ierul
+`notify-state.json` de pe branch-ul `notify-state`. AÈ™a un mesaj pleacÄƒ **exact o
+datÄƒ**, oricÃ¢te rulÄƒri s-ar suprapune sau ar reporni.
+
+---
+
+## Cum verifici / testezi
+
+GitHub â†’ **Actions â†’ NotificÄƒri â†’ Run workflow**:
+
+- `mode: test` â†’ trimite o notificare de probÄƒ tuturor (fÄƒrÄƒ sÄƒ atingÄƒ starea).
+- `mode: schedule` + `now: 2026-11-10T19:02` + `dry: 1` â†’ **simuleazÄƒ** ora de RomÃ¢nia
+indicatÄƒ È™i doar afiÈ™eazÄƒ Ã®n log ce s-ar trimite (util pentru â€cum aratÄƒ mesajul de
+la 19:00?â€).
+- `mode: schedule` (fÄƒrÄƒ `now`, fÄƒrÄƒ `dry`) â†’ porneÈ™te bucla realÄƒ de 5 ore.
+
+Ãn log, fiecare pas apare ca `[2026-11-10 19:02] â†’ ğŸ“– MÃ¢ine (Miercuri) â€¦ | 4 abonaÈ›i`.
+
+---
+
+## DacÄƒ un elev nu primeÈ™te notificÄƒri
+
+1. AplicaÈ›ia trebuie **adÄƒugatÄƒ pe ecranul principal** (iPhone: Safari â†’ Partajare â†’
+â€AdaugÄƒ la ecranul principalâ€; Android: Chrome â†’ meniu â†’ â€InstaleazÄƒ aplicaÈ›iaâ€).
+2. Ãn aplicaÈ›ie, bannerul ğŸ”” trebuie sÄƒ fie pe **â€NotificÄƒri activeâ€** (butonul
+â€ActiveazÄƒâ€). DacÄƒ a refuzat permisiunea, o deblocheazÄƒ din setÄƒrile browserului.
+3. Abonamentul se salveazÄƒ Ã®n Sheet (`subs`). Abonamentele expirate (404/410) sunt
+È™terse automat la urmÄƒtoarea trimitere.
+
+## FiÈ™iere implicate
+
+- `.github/workflows/notificari.yml` â€” bucla de 5 minute È™i ieÈ™irile de test.
+- `scripts/notify.js` â€” calculeazÄƒ È™i trimite mesajele (web-push + VAPID).
+- `notifications.js` â€” bannerul din aplicaÈ›ie È™i abonarea (POST cÄƒtre Apps Script).
+- `sw.js` â€” service worker-ul care afiÈ™eazÄƒ notificarea.
+- `apps-script.apps` â€” codul din Google Sheet (lista de abonaÈ›i). Nu mai e nevoie de
+trigger sau de PAT: GitHub Actions se Ã®ntreÈ›ine singur.
